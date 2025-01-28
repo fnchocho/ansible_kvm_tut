@@ -1,20 +1,41 @@
 ---
 
-- name: Install terraform
-  hosts: alma9
+- name: Install httpd
+  hosts: centos9
   become: true
   become_user: root
   tasks:
    
-     - name: Install unzip
-         package: 
-           name: unzip
+   - name: Install unzip
+     package: 
+       name: unzip
 
-     - name: Install terraform  
-       unarchive: 
-         src:https://releases.hashicorp.com/terraform/1.10.5/terraform_1.10.5_linux_amd64.zip
-         dest: /usr/local/bin/
-         remote_src: yes
-         mode: 0755
-         owner: root
-         group: root
+   - name: Install http and php on CentOS servers
+     tags: httpd, centos, apache
+     dnf: 
+        name: 
+          - httpd
+          - php
+        state: latest
+     when: ansible_distribution == "CentOS"
+
+   - name: Copy default html file for site (CentOS)
+     tags: httpd, centos, apache 
+     copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+     when: ansible_distribution == "CentOS"
+    
+   - name: Start httpd (CentOS)
+     tags: httpd, centos, apache 
+     service:
+        name: httpd
+        state: started
+     when: ansible_distribution == "CentOS"
+
+
+
+
