@@ -5,42 +5,29 @@
   become: true
   become_user: root
   tasks:
-  # any task name
-    - name: Test Task
-    # use file module to set the file state
-      file:
-        path: /home/fidel/ansible_test.txt
-        state: touch
-        owner: fidel
-        group: fidel
-        mode: 0600
- 
-    - name: Refer to Gathering Facts
-      command: echo "{{ ansible_distribution }} {{ ansible_distribution_version }} "
-      register: dist
-    - debug: msg="{{ dist.stdout }}"
+  
+  - name: Refer to Gathering Facts
+    command: echo "{{ ansible_distribution }}"
+    register: dist
+  - debug: msg="{{ dist.stdout }}"  
+
+  - name: Install Updates (CentOS) 
+    dnf:
+       update_only: yes
+       update_cache: yes
+    when: ansible_distribution == "CentOS"
+        
+  - name: Install Updates (Ubuntu)
+    apt
+       Upgrade: dist
+       update_cache: yes
+    when: ansible_distribution == "Ubuntu"
 
  
-    - name: Ensure General Packages are installed
+  - name: Ensure General Packages are installed
       package:
          name: 
             - tar
             - wget
             - unzip
          state: present
-
-
-# set boolean with [failed_when],
-# create [index.html] if result of boolean is [1]
-    - name: index file exists or not
-      shell: test -f /tmp/fidel.txt
-      ignore_errors: true
-      register: file_exists
-      failed_when: file_exists.rc not in [0, 1]
-
-    - name: put index.html
-      shell: echo "fidel.txt" > /tmp/fidel.txt
-      when: file_exists.rc == 1
-
-
-
