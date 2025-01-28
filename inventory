@@ -1,9 +1,9 @@
+[ip_nodes]
 192.168.122.129 
 192.168.122.94 
-192.168.122.198 
+192.168.122.198
 
-
-#name_nodes
+[name_nodes]
 alma9
 centos9
 ubuntu22-1
