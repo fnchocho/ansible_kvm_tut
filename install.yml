@@ -1,7 +1,7 @@
 ---
 
-- name: Install httpd
-  hosts: centos9
+- name: Install Basic packages
+  hosts: name_nodes]
   become: true
   become_user: root
   tasks:
@@ -37,5 +37,10 @@
      when: ansible_distribution == "CentOS"
 
 
-
+   - name: Install ntpdate
+     package:
+        name: ntpdate
+        state: present
+     tags: ntp
+     when: ansible_distribution == "ubuntu"
 
