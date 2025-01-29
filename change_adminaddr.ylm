@@ -13,6 +13,18 @@
      tags: httpd, apache. apache2 
      when: ansible_distribution == "CentOS"
 
+   - name: cat a file on target hosts  
+     tags: apache, httpd, centos
+     command: cat /var/www/html/index.html
+     register: cat_output
+     when: ansible_distribution == "CentOS"
+
+   - name: Print line changed  
+     tags: apache, httpd, centos
+     debug:
+        var: cat_output.stdout
+      
+
    - name: Restart httpd (CentOS)
      tags: apache, httpd, centos
      service:
