@@ -1,0 +1,29 @@
+---
+
+- name: Create ansible user
+  hosts: name_nodes
+  become: true
+  become_user: root
+  tasks:
+
+    - name: Add user salo to host
+      tags: always
+      user:
+          name: salo
+          groups: root
+
+    - name: Add ssh key for user salo
+      tags: always
+      ansible.posix.authorized_key: 
+          user: salo
+          state: present
+          key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIzRyEWPqVQvp9mRcRkCnKhF0igiTjg2p7FyNYx1I6il ansible"
+
+    - name: Add sudoers file for salo
+      tags: always
+      copy:
+         src: sudoer_salo
+         dest: /etc/sudoers.d/salo
+         owner: root
+         group: root 
+         mode: 0440
