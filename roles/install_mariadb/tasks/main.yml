@@ -1,0 +1,13 @@
+- name: mariadb is installed
+  dnf:
+    name: "{{ mariadb_package }}"
+    state: present
+  tags: install_mariadb
+
+- name: mariadb is running and enabled
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+

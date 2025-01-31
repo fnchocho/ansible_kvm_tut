@@ -1,0 +1,32 @@
+- name: Refer to Gathering Facts
+  command: echo "{{ ansible_distribution }}"
+  register: dist
+
+- debug: msg="{{ dist.stdout }}"  
+
+- name: Update packages on Ubuntu/Debian
+  apt:
+    update_cache: yes   #Update the package cache
+    upgrade: dist  # Perform a distribution upgrade
+  when: ansible_os_family == "Debian"
+
+- name: Update packages on CentOS/RHEL
+  dnf:
+    name: '*'  # Update all packages
+    state: latest  # Ensure they are up to date
+  when: ansible_os_family == "RedHat"
+
+- name: Install ntpdate
+  package:
+    name: ntpdate
+    state: present
+  tags: ntp    
+
+- name: Ensure General Packages are installed
+  tags: always
+  package:
+    name: 
+      - tar
+      - wget
+      - unzip
+    state: present
