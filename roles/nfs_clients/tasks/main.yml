@@ -60,12 +60,6 @@
 - name: Start autofs
   service:
     name: autofs
-    state: restarted 
-  tags: autofs,nfs    
-    
-- name: Start autofs
-  service:
-    name: autofs
     state: started 
     enabled: yes
   tags: autofs,nfs
