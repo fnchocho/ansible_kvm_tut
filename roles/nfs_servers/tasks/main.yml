@@ -30,5 +30,6 @@
     service: nfs
     permanent: yes    
     state: enabled    
+  notify: Restart autofs
   tags: nfs-firewalld
 
