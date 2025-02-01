@@ -1,0 +1,4 @@
+- name: restart_autofs
+  service: 
+    name: autofs
+    state: restarted  

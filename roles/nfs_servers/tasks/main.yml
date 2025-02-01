@@ -1,0 +1,34 @@
+- name: Install autofs server packages
+  ansible.builtin.package:
+    name: nfs-utils
+    state: present
+  tags: nfs,autofs
+    
+- name: Uncomment domian name
+  ansible.builtin.lineinfile: 
+    path: /etc/idmapd.conf
+    regexp: '^Domain='
+    line: Domain = fncho.world
+  tags: nfs,autofs
+
+- name: Create NFS shared folder
+  ansible.builtin.file: 
+    path: /home/nfsshare
+    state: directory
+    mode: '0755'
+  tags: nfs,autofs
+
+- name: Set NFS share 
+  ansible.builtin.lineinfile: 
+    path: /etc/exports
+    line: "/home/nfsshare 192.168.122.94/24(rw,no_root_squash)"
+    state: present
+  tags: nfs,autofs  
+    
+- name: Add NFS service to firewall
+  firewalld:  
+    service: nfs
+    permanent: yes    
+    state: enabled    
+  tags: nfs-firewalld
+

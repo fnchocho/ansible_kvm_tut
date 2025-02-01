@@ -1,0 +1,64 @@
+
+- name: Update packages on CentOS/RHEL
+  yum:
+    name: '*'  # Update all packages
+    state: latest  # Ensure they are up to date
+  when: ansible_os_family == "RedHat"
+
+- name: Install ntpdate
+  package:
+    name: chrony
+    state: present
+  tags: ntp,chronyd    
+
+- name: Start chronyd
+  service:
+    name: chronyd
+    state: started 
+    enabled: yes
+  tags: chronyd,ntp
+
+- name: Add chronyd service to firewall
+  firewalld:  
+    service: ntp
+    permanent: yes    # Make the change permanent
+    state: enabled    # Enable the NFS service in the firewall
+  when: ansible_os_family == "RedHat"
+  tags: chronyd-firewalld
+
+- name: Reload firewalld to apply changes
+  firewalld:
+    state: enabled
+  when: ansible_os_family == "RedHat"
+  tags: chronyd-firewalld
+
+- name: Ensure General Packages are installed
+  tags: always
+  package:
+      name: 
+        - tar
+        - wget
+        - unzip
+      state: present
+
+- name: Add user fidel to host
+  tags: always
+  user:
+    name: fidel
+    groups: root
+
+- name: Add ssh key for user fidel
+  tags: always
+  ansible.posix.authorized_key: 
+    user: fidel
+    state: present
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIzRyEWPqVQvp9mRcRkCnKhF0igiTjg2p7FyNYx1I6il ansible"
+
+- name: Add sudoers file for fidel
+  tags: always
+  copy:
+    src: sudoer_fidel
+    dest: /etc/sudoers.d/fidel
+    owner: root
+    group: root 
+    mode: 0440

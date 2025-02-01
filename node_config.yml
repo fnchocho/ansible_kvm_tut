@@ -1,0 +1,15 @@
+- hosts: all
+  become: true
+  roles:
+    - base
+
+- hosts: nfs_servers
+  become: true
+  roles:
+    - nfs_servers
+
+- hosts: nfs_clients
+  become: true
+  roles:
+    - nfs_clients 
+

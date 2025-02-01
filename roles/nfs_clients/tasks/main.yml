@@ -1,0 +1,71 @@
+- name: Install NFS utils on non ubuntu servers 
+  ansible.builtin.package:
+    name: 
+      - nfs-utils
+      - autofs
+    state: present
+  when: ansible_distribution != "Ubuntu"
+  tags: nfs,autofs
+
+- name: Install NFS utils on ubuntu servers
+  ansible.builtin.package:
+    name:
+      - nfs-common
+      - autofs
+    state: present
+  when: ansible_distribution == "Ubuntu"
+  tags: nfs,autofs,ubuntu
+    
+- name: Uncomment domian name
+  ansible.builtin.lineinfile: 
+    path: /etc/idmapd.conf
+    regexp: '^Domain='
+    line: Domain = fncho.world
+  tags: nfs,autofs
+
+- name: Add auto.master
+  ansible.builtin.lineinfile: 
+    path: /etc/auto.master
+    line: "/-    /etc/auto.mount"
+    state: present
+  tags: nfs,autofs
+
+# set boolean with [failed_when],
+# create [auto.mount] if result of boolean is [1]
+- name: auto.mount file exists or not
+  shell: test -f /etc/auto.mount
+  ignore_errors: true
+  register: file_exists
+  failed_when: file_exists.rc not in [0, 1]
+
+- name: put auto.mount
+  shell: echo "auto.mount" > /etc/auto.mount
+  when: file_exists.rc == 1
+
+- name: Add auto.mount
+  ansible.builtin.lineinfile: 
+    path: /etc/auto.mount
+    line: "/mnt -fstype=nfs,rw  192.168.122.94:/home/nfsshare"
+    state: present
+  tags: nfs,autofs  
+
+- name: Append nfs mount to become automatic
+  ansible.builtin.lineinfile: 
+    path:  /etc/fstab
+    line: "192.168.122.94:/home/nfsshare /mnt nfs defaults  0 0"   
+    state: present 
+  notify: restart_autofs 
+  tags: autofs,nfs 
+
+- name: Start autofs
+  service:
+    name: autofs
+    state: restarted 
+  tags: autofs,nfs    
+    
+- name: Start autofs
+  service:
+    name: autofs
+    state: started 
+    enabled: yes
+  tags: autofs,nfs

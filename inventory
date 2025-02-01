@@ -1,15 +1,21 @@
 
-[ip_nodes]
-192.168.122.94  
-192.168.122.129 
-192.168.122.178 
-192.168.122.198 
-
-[name_nodes]
+[all]
 alma9
 centos9
-ubuntu22-1
 rocky9
+ubuntu22-1
+
+
+[nfs_servers]
+centos9
+
+[nfs_clients]
+alma9
+rocky9
+ubuntu22-1
+
+[web_servers]
+alma9
 
 [db_servers]
 rocky9
