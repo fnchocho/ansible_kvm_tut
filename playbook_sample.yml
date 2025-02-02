@@ -5,11 +5,11 @@
   become: true
   become_user: root
   tasks:
-     - name: Refer to Gathering Facts
-       command: echo "{{ ansible_distribution }} {{ ansible_distribution_version }} "
-       register: disti
+    - name: Refer to Gathering Facts
+      command: echo "{{ ansible_distribution }} "
+      register: dist
 
-     - debug: msg="{{ dist.stdout }}"
+    - debug: msg="{{ dist.stdout }}"
 
     - name: Test Task
       file:
@@ -19,14 +19,25 @@
         group: fidel
         mode: 0600
  
-    - name: Refer to Gathering Facts
-      command: echo "{{ ansible_distribution }} {{ ansible_distribution_version }} "
-      register: dist
-    - debug: msg="{{ dist.stdout }}"
+
+    - name: cat a file on target hosts  
+      tags: apache, httpd, centos
+      command: cat /var/www/html/index.html
+      register: cat_output
+      when: ansible_distribution == "CentOS"
+
+- name: Install Vsftp server
+  hosts: nfs_servers
+  become: true
+  become_user: root
+  tasks:
+    - name: Install Vsftp server
+      package:
+        name: vsftpd
+        state: present
+      when: ansible_distribution == "CentOS"
+      tags: vsftp,centos 
 
 
-   - name: cat a file on target hosts  
-     tags: apache, httpd, centos
-     command: cat /var/www/html/index.html
-     register: cat_output
-     when: ansible_distribution == "CentOS"
+
+

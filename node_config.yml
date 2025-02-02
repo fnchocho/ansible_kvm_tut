@@ -13,3 +13,8 @@
   roles:
     - nfs_clients 
 
+- hosts: vsftp_servers
+  become: true
+  roles:
+    - vsftp
+  tags: vsftp
