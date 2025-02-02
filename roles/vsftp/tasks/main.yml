@@ -1,0 +1,8 @@
+   
+- name: Install Vsftp server
+  package:
+     name: vsftpd
+     state: present
+  when: ansible_distribution == "CentOS"
+  tags: vsftp,centos
+
