@@ -16,7 +16,7 @@
 - hosts: vsftp_servers
   become: true
   roles:
-    - vsftp
+    - vsftp_servers
   tags: vsftp
 
 
