@@ -6,3 +6,93 @@
   when: ansible_distribution == "CentOS"
   tags: vsftp,centos
 
+- name: Configure vsftp server,prohibit anonymous login
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^anonymous_enable='
+    line: anonymous_enable=NO
+  
+- name: Configure vsftp server, enable chroot
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^chroot_local_user='
+    line: chroot_local_user=YES
+
+
+- name: Configure vsftp server, enable chroot list
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^chroot_list_enable='
+    line: chroot_list_enable=YES
+
+- name: Configure vsftp server, enable writable chroot dir
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    line: allow_writeable_chroot=YES
+    state: present
+
+
+- name: Configure vsftp server, enable chroot list file
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^chroot_list_file='
+    line: chroot_list_file=/etc/vsftpd/chroot_list
+
+
+- name: Configure vsftp server, enable recursive transfer
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^ls_recurse_enable='
+    line: chroot_list_file=/etc/vsftpd/chroot_list
+
+- name: Configure vsftp server, set listen only IPv4
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^listen='
+    line: listen=YES
+
+
+- name: Configure vsftp server, disallow listen on IPv6
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    regexp: '^listen_ipv6='
+    line: listen_ipv6=NO
+
+
+- name: Configure vsftp server, allow use of local time
+  lineinfile:
+    path: /etc/vsftpd/vsftpd.conf
+    line: use_localtime=YES
+    state: present
+
+
+- name: Configure vsftp server, add users allowed to move over their home directory
+  lineinfile:
+    path: /etc/vsftpd/chroot_list
+    line: fidel
+    state: present
+
+- name: Start vsftp
+  service:
+    name: vsftpd
+    state: started 
+    enabled: yes
+  tags: vsftp
+
+- name: Enable ftpd_full_access SELinux boolean
+  seboolean:
+    name: ftpd_full_access
+    state: yes  # Set to on
+    persistent: yes  # Ensure this change persists across reboots
+  tags: vsftp
+
+- name: Add VSFTP service to firewall
+  firewalld:  
+    service: ftp
+    permanent: yes    
+    state: enabled    
+  notify: Restart ftp
+  tags: ftp-firewalld
+
+
+
