@@ -1,4 +1,0 @@
-- name: Restart ftp
-  ansible.builtin.service:
-    name: ftp
-    state: restarted
