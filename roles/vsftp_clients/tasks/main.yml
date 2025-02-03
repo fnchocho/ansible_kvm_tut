@@ -1,0 +1,5 @@
+- name: Install Vsftp client
+  package:
+     name: lftp
+     state: present
+  tags: vsftp
