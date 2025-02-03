@@ -18,3 +18,11 @@
   roles:
     - vsftp
   tags: vsftp
+
+
+- hosts: vsftp_clients
+  become: true
+  roles:
+    - vsftp_clients
+  tags: vsftp
+
