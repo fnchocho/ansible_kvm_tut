@@ -17,6 +17,11 @@ ubuntu22-1
 [vsftp_servers]
 centos9
 
+[vsftp_clients]
+alma9
+rocky9
+ubuntu22-1
+
 
 [web_servers]
 alma9
