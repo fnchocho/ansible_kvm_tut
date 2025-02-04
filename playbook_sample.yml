@@ -19,25 +19,12 @@
         group: fidel
         mode: 0600
  
-
-    - name: cat a file on target hosts  
-      tags: apache, httpd, centos
-      command: cat /var/www/html/index.html
-      register: cat_output
-      when: ansible_distribution == "CentOS"
-
-- name: Install Vsftp server
-  hosts: nfs_servers
-  become: true
-  become_user: root
-  tasks:
-    - name: Install Vsftp server
-      package:
-        name: vsftpd
-        state: present
-      when: ansible_distribution == "CentOS"
-      tags: vsftp,centos 
-
-
-
-
+    - name: Edit file with multiple lines added  
+  #    hosts: alma9
+      blockinfile:
+        path: /tmp/fidel.txt
+        block: |
+          This is the first line to add
+          This is the second line to add
+          This is the third line to add
+        

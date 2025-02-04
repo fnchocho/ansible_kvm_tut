@@ -3,7 +3,7 @@
   package:
      name: vsftpd
      state: present
-  when: ansible_distribution == "CentOS"
+# when: ansible_distribution == "CentOS"
   tags: vsftp,centos
 
 - name: Configure vsftp server,prohibit anonymous login
