@@ -1,0 +1,50 @@
+- name: Install httpd
+  ansible.builtin.package:
+    name: httpd
+    state: present
+  tags: https
+
+- name: Rename or remove welcome page
+  command: mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.org
+
+- name: Change admins email
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin fidel@fncho.world
+  tags: httpd
+
+- name: Change server's name
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerName'
+    line: ServerName 192.168.122.198:80
+  tags: httpd
+
+- name: Remove Indexes
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^Options'
+    line: Options FollowSymLinks
+  tags: httpd
+
+- name: Allow Override
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^AllowOverride'
+    line: AllowOverride All
+  tags: httpd
+
+- name: Add file to access directory's name
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^DirectoryIndex index.html'
+    line: DirectoryIndex index.html index.php index.cgi
+  tags: httpd
+
+- name: Add follows to the end, server's response header
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: "ServerTokens Prod"
+    state: present
+  tags: httpd
