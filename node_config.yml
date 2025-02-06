@@ -26,3 +26,10 @@
     - vsftp_clients
   tags: vsftp
 
+
+- hosts: web_servers
+  become: true
+  roles:
+    - web_servers
+  tags: httpd
+
