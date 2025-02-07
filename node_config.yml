@@ -33,3 +33,9 @@
     - web_servers
   tags: httpd
 
+- hosts: db_servers
+  become: true
+  roles:
+    - db_servers
+  tags: db_servers
+
