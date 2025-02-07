@@ -1,0 +1,29 @@
+- name: Install postgresql package
+  ansible.builtin.package:
+    name: postgresql
+    state: present
+
+- name: Initiate postgresql-setup
+  ansible.builtin.command: postgresql-setup --initdb
+  register: pg_setup_output                           # Register the output for logging or debugging purposes
+  changed_when: pg_setup_output.rc == 0               # Typically, the first run will change the state
+
+- name: Output the result of initialization
+  debug:
+     var: pg_setup_output.stdout  # Outputting the result for verification
+
+- name: Enable postgresql 
+  service:
+    name: postgresql
+    state: started 
+    enabled: yes
+
+- name: Capture listening default ports 
+  ansible.builtin.command: grep listen_addresses /var/lib/pgsql/data/postgresql.conf
+  register: postgresql_listening_ports     # Register the output for logging or debugging purposes
+  changed_when: postgresql_listening_ports.rc == 0  # Typically, the first run will change the state
+
+- name: Display listening default ports
+  debug:
+     var: postgresql_listening_ports.stdout  # Outputting the result for verification
+
