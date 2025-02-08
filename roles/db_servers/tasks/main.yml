@@ -10,7 +10,7 @@
 
 - name: Output the result of initialization
   debug:
-     var: pg_setup_output.stdout  # Outputting the result for verification
+    var: pg_setup_output.stdout  # Outputting the result for verification
 
 - name: Enable postgresql 
   service:

@@ -19,13 +19,11 @@
     - vsftp_servers
   tags: vsftp
 
-
 - hosts: vsftp_clients
   become: true
   roles:
     - vsftp_clients
   tags: vsftp
-
 
 - hosts: web_servers
   become: true
@@ -38,4 +36,11 @@
   roles:
     - db_servers
   tags: db_servers
+
+
+- hosts: mariadb_servers
+  become: true
+  roles:
+    - mariadb_servers
+  tags: mariadb_servers
 

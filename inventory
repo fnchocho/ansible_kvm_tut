@@ -28,3 +28,7 @@ alma9
 
 [db_servers]
 rocky9
+
+[mariadb_servers]
+alma9
+
