@@ -3,6 +3,12 @@
   roles:
     - base
 
+- hosts: centos9-app
+  become: true
+  roles:
+    - useradd
+  tags: useradd
+
 - hosts: app_servers
   become: true
   roles:

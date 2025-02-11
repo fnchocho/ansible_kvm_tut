@@ -2,7 +2,7 @@
   package:
     name:
       - epel-release
-      - nmp
+#      - nmp
     state: present
     enablerepo: epel
 
@@ -33,17 +33,17 @@
 # copy the entire app to the server
 - name: Ensure Node.js app folder exists
   file: 
-    path: {{ node_apps_location }}
+    path: "{{ node_apps_location }}"
     state: present
 
 - name: Copy example Node.js app to server
   copy: 
     src: app
-    dest: {{ node_apps_location }}
+    dest: "{{ node_apps_location }}"
 
-- name: Install app dependencies defined in package.json
-  nmp: 
-    path: {{ node_apps_location }}/app
+#- name: Install app dependencies defined in package.json
+#  nmp: 
+#    path: '"{{ node_apps_location }}"/app'
 
 # Launch a Node.js all 
 # Use register to create a new list, forever list
@@ -54,5 +54,5 @@
 
 # Start up the app using Forever
 - name: Start example Node.js app
-  command: "/usr/local/bin/forever start {{ node_apps_location }}/app/app.js"
+  command: '/usr/local/bin/forever start "{{ node_apps_location }}"/app/app.js'
   when: "forever_list.stdout.find(node_apps_location + '/app/app.js') == -1"    # tell ansible when to start the app and avoid hanging tasks
