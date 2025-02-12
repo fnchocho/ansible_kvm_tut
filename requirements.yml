@@ -1,0 +1,19 @@
+ ---
+ roles
+   # From Ansible Galaxy, latest version.
+     name: geerlingguy.firewall
+
+   # From Ansible Galaxy, specifying the version.
+   - name: geerlingguy.php
+     version: 4.3.1
+
+   # From GitHub, with a custom name and version.
+   - src: https://github.com/geerlingguy/ansible-role-passenger
+     name: passenger
+     version: 2.0.0
+
+   # From a web server, with a custom name.
+   - src: https://www.example.com/ansible/roles/my-role-name.tar.gz
+     name: my-role
+
+

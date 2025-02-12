@@ -55,3 +55,9 @@
     - mariadb_servers
   tags: mariadb_servers
 
+- hosts: nginx_web_servers
+  become: true
+  roles:
+    - nginx_web_servers
+  tags: nginx_web_servers
+

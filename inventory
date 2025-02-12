@@ -36,3 +36,5 @@ rocky9
 [mariadb_servers]
 alma9
 
+[nginx_web_servers]
+ubuntu22-1
