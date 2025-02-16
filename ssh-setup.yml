@@ -1,0 +1,6 @@
+- name: Add ssh key for user "{{ username  }}"
+  tags: ssh_key
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{  lookup('file', lookup('env','HOME') + '/.ssh/ansible.pub') }}"

@@ -5,7 +5,7 @@ centos9
 centos9-app
 rocky9
 ubuntu22-1
-
+debian12
 
 [app_servers]
 centos9-app
