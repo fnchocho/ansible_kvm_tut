@@ -1,0 +1,5 @@
+- name: Add "{{ service_name }}"  service to firewall
+  firewalld:  
+    service: "{{ service_name }}" 
+    permanent: yes    # Make the change permanent
+    state: enabled    # Enable the NFS service in the firewall

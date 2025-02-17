@@ -1,45 +1,33 @@
-
-- name: Update packages on CentOS/RHEL
-  yum:
-    name: '*'  # Update all packages
-    state: latest  # Ensure they are up to date
+- name: Update Centos/RedHat packages
+  include_tasks: update_package.yml
   when: ansible_os_family == "RedHat"
 
-- name: Install ntpdate
-  package:
-    name: chrony
-    state: present
-  tags: ntp,chronyd    
+- name: Insatll basic packages
+  include_tasks: install_package.yml
+  vars:
+    package_name: "{{ item }}"
+  loop:
+    - tar
+    - wget
+    - unzip
+    - curl
+    - chrony
 
-- name: Start chronyd
-  service:
-    name: chronyd
-    state: started 
-    enabled: yes
-  tags: chronyd,ntp
-
-- name: Add chronyd service to firewall
-  firewalld:  
-    service: ntp
-    permanent: yes    # Make the change permanent
-    state: enabled    # Enable the NFS service in the firewall
+- name: Add firewall service 
+  include_tasks: add_service_firewall.yml
+  vars:
+    service_name: "{{ item }}"
+  loop: 
+   - ntp
   when: ansible_os_family == "RedHat"
-  tags: chronyd-firewalld
 
-- name: Reload firewalld to apply changes
-  firewalld:
-    state: enabled
-  when: ansible_os_family == "RedHat"
-  tags: chronyd-firewalld
-
-- name: Ensure General Packages are installed
-  tags: always
-  package:
-      name: 
-        - tar
-        - wget
-        - unzip
-        - curl
-        - vim
-      state: present
+- name: Start "{{ item }}" service
+  include_tasks: start_service.yml
+  vars:
+    service_name: "{{ item }}"
+  loop:
+    - chronyd
+    
+- name: Update Centos/RedHat packages
+  include_tasks: update_package.yml
 

@@ -1,0 +1,7 @@
+- name: Update packages on "{{ ansible_os_family }}"
+  yum:
+    name: '*'  # Update all packages
+    state: latest  # Ensure they are up to date
+  when: ansible_os_family == "RedHat"
+
+
