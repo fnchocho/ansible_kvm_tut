@@ -4,4 +4,8 @@
     state: latest  # Ensure they are up to date
   when: ansible_os_family == "RedHat"
 
-
+- name: Update packages on Ubuntu/Debian
+  apt:
+    update_cache: yes   #Update the package cache
+    upgrade: dist  # Perform a distribution upgrade
+  when: ansible_os_family == "Debian"
