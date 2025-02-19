@@ -1,17 +1,16 @@
 - name: Update Centos/RedHat packages
-  include_tasks: update_package.yml
-  when: ansible_os_family == "RedHat"
+  import_tasks: update_package.yml
 
 - name: Install basic packages
-  include_tasks: install_package.yml
-  vars:
-    package_name: "{{ (tar,wget,unzip,curl,chrony) }}"
-#  loop:
-#   - tar
-#    - wget
-#    - unzip
-#    - curl
-#    - chrony
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - tar
+    - wget
+    - unzip
+    - curl
+    - chrony
 
 - name: Add firewall service 
   include_tasks: add_service_firewall.yml
