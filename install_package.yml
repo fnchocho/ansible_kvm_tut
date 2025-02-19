@@ -1,5 +1,5 @@
-- name: Install "{{ package_name }}"
+- name: Install "{{ name_of_package }}"
   package:
-    name: "{{ package_name }}"
+    name: "{{ name_of_package }}"
     state: present
-  tags: "{{ package_name }}"
+  tags: "{{ name_of_package }}"

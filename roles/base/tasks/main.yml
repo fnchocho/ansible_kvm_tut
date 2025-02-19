@@ -2,14 +2,13 @@
   import_tasks: update_package.yml
 
 - name: Install basic packages
-  package:
-    name: "{{ item }}"
-    state: present
+  include_tasks: install_package.yml
+  vars:
+    name_of_package: "{{ item }}"
   loop:
     - tar
     - wget
     - unzip
-    - curl
     - chrony
 
 - name: Add firewall service 
@@ -27,6 +26,4 @@
   loop:
     - chronyd
     
-- name: Update Centos/RedHat packages
-  include_tasks: update_package.yml
 
