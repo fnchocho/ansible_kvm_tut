@@ -1,2 +1,9 @@
+---
 created_username: fidel
 ssh-ed25519_key: "AAAAC3NzaC1lZDI1NTE5AAAAIIzRyEWPqVQvp9mRcRkCnKhF0igiTjg2p7FyNYx1I6il ansible"
+
+packages:
+  - chrony
+  - tar
+  - unzip
+  - wget

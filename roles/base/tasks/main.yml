@@ -2,19 +2,15 @@
   import_tasks: update_package.yml
 
 - name: Install basic packages
-  include_tasks: install_package.yml
-  vars:
-    name_of_package: "{{ item }}"
-  loop:
-    - tar
-    - wget
-    - unzip
-    - chrony
+  package:
+     name: "{{ item }}"
+     state: present
+  with_items: "{{ packages }}"
 
 - name: Add firewall service 
   include_tasks: add_service_firewall.yml
   vars:
-    service_name: "{{ item }}"
+    firewall_name: "{{ item }}"
   loop: 
    - ntp
   when: ansible_os_family == "RedHat"
