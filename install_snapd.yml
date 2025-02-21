@@ -1,0 +1,6 @@
+---
+- name: Test Playbook
+  hosts: centos9-app
+  become: yes
+  roles: 
+    - install_snappy

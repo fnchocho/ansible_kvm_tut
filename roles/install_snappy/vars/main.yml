@@ -1,0 +1,10 @@
+---
+# vars file for install-snappy
+repo_name: epel-release
+package_name: snapd
+source_file_path: /var/lib/snapd/snap
+dest_file_path: /snap
+package_service_name:
+  - "snapd.service"
+  - "snapd.socket"
+

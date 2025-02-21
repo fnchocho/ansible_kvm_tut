@@ -1,0 +1,28 @@
+---
+# tasks file for install-snappy
+- name: Install "{{ repo_name }}" repo
+  dnf:
+    name: "{{ repo_name }}"
+    state: present
+
+- name: Install "{{ package_name }}"
+  dnf:
+    name: "{{ package_name }}"
+    state: present
+
+- name: Create symbolic link betwem /var and /snap
+  file:
+    src: "{{ source_file_path }}"
+    dest: "{{ dest_file_path }}"
+    state: link
+
+- name: Export snap PATH variable
+  command: echo 'export PATH=$PATH:"{{ source_file_path }}"/bin' > /etc/profile.d"{{ dest_file_path }}".sh
+
+- name: Enable "{{ package_name }}" services
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items: "{{ package_service_name }}"
+
+
