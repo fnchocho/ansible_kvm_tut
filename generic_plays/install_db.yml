@@ -1,0 +1,6 @@
+- hosts: db_servers
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - install_mariadb

@@ -1,0 +1,30 @@
+- name: Add sudoers file for "{{ username }}"
+  tags: sudoer
+  copy:
+    src: sudoer.txt
+    dest: /etc/sudoers.d/"{{ username }}"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Check if wheel group exists 
+  include_tasks: check_usergroup.yml
+  vars: 
+    my_group: wheel
+
+- name: Grant regular user "{{ username }}" with sudo privileges
+  user:
+    name: "{{ username }}"
+    state: present
+    groups: wheel
+    append: true
+    create_home: true
+  when: group_check.rc == 0
+  ignore_errors: yes
+
+- name: Setup passwordless sudo for "{{ username }}"
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    line: '"{{ username }}"  ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
