@@ -1,0 +1,5 @@
+---
+# vars file for ssh_config
+service_name: "ssh"
+username: "fidel"
+
