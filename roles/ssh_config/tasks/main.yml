@@ -13,7 +13,7 @@
     - regexp: "^PermitRootLogin"
       line: "PermitRootLogin no"
     - regexp: "^Port"
-      line: "Port 2849"
+      line: "Port 22"
   notify: restart "{{ service_name }}"
   
 - name: Add ssh key for user "{{ username  }}"

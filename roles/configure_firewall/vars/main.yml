@@ -1,0 +1,7 @@
+---
+# vars file for configure_firewall
+
+state-port:
+  - { state: 'enabled', port: '22/tcp' }
+  - { state: 'enabled', port: '80/tcp' }
+  - { state: 'enabled', port: '123/udp' }
