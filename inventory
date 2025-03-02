@@ -2,39 +2,11 @@
 [all]
 alma9
 centos9
-centos9-app
 rocky9
-ubuntu22-1
-debian12
-
-[app_servers]
-centos9-app
-
-[nfs_servers]
-centos9
-
-[nfs_clients]
-alma9
-rocky9
-ubuntu22-1
-
-[vsftp_servers]
-centos9
-
-[vsftp_clients]
-alma9
-rocky9
-ubuntu22-1
+ubuntu22 
 
 
-[web_servers]
-alma9
-
-[db_servers]
-rocky9
-
-[mariadb_servers]
-alma9
-
-[nginx_web_servers]
-ubuntu22-1
+#192.168.122.26  alma9    alma9.fncho.world 
+#192.168.122.109 ubuntu22 ubuntu22.fncho.world 
+#192.168.122.235 rocky9   rocky9.fncho.world
+#192.168.122.156 centos9  centos9.fncho.world
